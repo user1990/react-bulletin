@@ -1,45 +1,25 @@
-/* eslint-disable */
 import React, { Component } from 'react'
-import logo from './logo.svg'
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
-import { createStore, applyMiddleware, compose } from 'redux'
-import reducer from './reducers/index'
-import { Provider } from 'react-redux'
-import thunk from 'redux-thunk'
+import { ApolloProvider } from 'react-apollo'
+import client from './graphql/apolloClient'
 import './App.css'
-
-const logger = store => next => action => {
-  console.group(action.type)
-  console.info('dispatching', action)
-  let result = next(action)
-  console.log('next state', store.getState())
-  console.groupEnd(action.type)
-  return result
-}
-
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
-
-const store = createStore(
-  reducer,
-  composeEnhancers(applyMiddleware(logger, thunk))
-)
+// Views
+import Category from './views/Category'
+import Home from './views/Home'
+import PostDetail from './views/PostDetail'
 
 class App extends Component {
-  render() {
+  render () {
     return (
-      <Provider>
+      <ApolloProvider client={client}>
         <BrowserRouter>
-          <div className="App">
-            <header className="App-header">
-              <img src={logo} className="App-logo" alt="logo" />
-              <h1 className="App-title">Welcome to React</h1>
-            </header>
-            <p className="App-intro">
-              To get started, edit <code>src/App.js</code> and save to reload.
-            </p>
-          </div>
+          <Switch>
+            <Route exact path='/' component={Home} />
+            <Route exact path='/:category' component={Category} />
+            <Route path='/post/:post_id' component={PostDetail} />
+          </Switch>
         </BrowserRouter>
-      </Provider>
+      </ApolloProvider>
     )
   }
 }
