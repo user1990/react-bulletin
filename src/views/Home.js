@@ -5,13 +5,16 @@ import Layout from '../components/Layout'
 import Loader from '../components/Loader'
 import Grid from 'material-ui/Grid'
 import RenderPost from '../components/renderPostPreview'
+import { Helmet } from 'react-helmet'
 
 class Home extends Component {
   render () {
     const posts = this.props.data.posts
-
     return (
       <Layout>
+        <Helmet>
+          <title>Home | Bulletin - FUS</title>
+        </Helmet>
         {!posts && <Loader />}
         {posts && (
           <Grid container justify='center'>

@@ -101,11 +101,9 @@ class Layout extends Component {
     this.handleDrawerOpen = this.handleDrawerOpen.bind(this)
     this.handleDrawerClose = this.handleDrawerClose.bind(this)
   }
-
   handleDrawerOpen () {
     this.setState({ open: true })
   }
-
   handleDrawerClose () {
     this.setState({ open: false })
   }

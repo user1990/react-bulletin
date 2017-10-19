@@ -4,6 +4,7 @@ import { getCategories } from '../graphql/queries/categories'
 import Loader from '../components/Loader'
 import Layout from '../components/Layout'
 import CategoryView from '../components/CategoryView'
+import { Helmet } from 'react-helmet'
 
 class Category extends Component {
   constructor () {
@@ -16,6 +17,9 @@ class Category extends Component {
     const categories = this.props.data.categories
     return (
       <div>
+        <Helmet>
+          <title>Posts By Categories | Bulletin - FUS</title>
+        </Helmet>
         {categories.edges.map(category => (
           <CategoryView
             key={category.node.id}

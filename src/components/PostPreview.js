@@ -20,6 +20,7 @@ class PostPreview extends Component {
     this.renderCard = this.renderCard.bind(this)
     this.transitionToPost = this.transitionToPost.bind(this)
   }
+
   renderCard () {
     const classes = this.props.classes
     const date = new Date(this.props.date).toLocaleDateString()

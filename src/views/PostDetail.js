@@ -3,6 +3,7 @@ import { graphql } from 'react-apollo'
 import { SinglePostDetail } from '../graphql/queries/posts'
 import Layout from '../components/Layout'
 import Loader from '../components/Loader'
+import { Helmet } from 'react-helmet'
 
 class PostDetail extends Component {
   constructor () {
@@ -15,6 +16,9 @@ class PostDetail extends Component {
     const date = new Date(post.date).toLocaleDateString()
     return (
       <div>
+        <Helmet>
+          <title>{post.title} - FUS</title>
+        </Helmet>
         <h1>{post.title}</h1>
         <img
           alt=''
@@ -32,6 +36,9 @@ class PostDetail extends Component {
     const isLoading = this.props.data.loading
     return (
       <Layout>
+        <Helmet>
+          <title>Loading... - FUS</title>
+        </Helmet>
         {isLoading && <Loader />}
         {!isLoading && this.renderPost()}
       </Layout>
