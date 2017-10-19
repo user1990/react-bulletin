@@ -1,17 +1,24 @@
 import React, { Component } from 'react'
 import { graphql } from 'react-apollo'
 import { SinglePostDetail } from '../graphql/queries/posts'
+import Layout from '../components/Layout'
+import Loader from '../components/Loader'
 
 class PostDetail extends Component {
-  renderPost = () => {
+  constructor () {
+    super()
+    this.renderPost = this.renderPost.bind(this)
+  }
+
+  renderPost () {
     const post = this.props.data.post
     const date = new Date(post.date).toLocaleDateString()
     return (
-      <div style={{ border: '1px solid black', padding: '5px' }}>
+      <div>
         <h1>{post.title}</h1>
         <img
           alt=''
-          style={{ height: '500px', width: '500px' }}
+          style={{ height: '600px', width: '800px' }}
           src={post.featuredImage.sourceUrl}
         />
         <div dangerouslySetInnerHTML={{ __html: post.content }} />
@@ -24,10 +31,10 @@ class PostDetail extends Component {
   render () {
     const isLoading = this.props.data.loading
     return (
-      <div>
-        {isLoading && <h1>Loading...</h1>}
+      <Layout>
+        {isLoading && <Loader />}
         {!isLoading && this.renderPost()}
-      </div>
+      </Layout>
     )
   }
 }
