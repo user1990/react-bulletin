@@ -1,10 +1,15 @@
 import React, { Component } from 'react'
+import { Link } from 'react-router-dom'
+import classNames from 'classnames'
+// GraphQL
+import { graphql } from 'react-apollo'
+import { getAllCategories } from '../graphql/queries/categories'
+// Material-UI
 import {
   withStyles,
   MuiThemeProvider,
   createMuiTheme
 } from 'material-ui/styles'
-import classNames from 'classnames'
 import Drawer from 'material-ui/Drawer'
 import AppBar from 'material-ui/AppBar'
 import Toolbar from 'material-ui/Toolbar'
@@ -12,10 +17,15 @@ import Typography from 'material-ui/Typography'
 import Divider from 'material-ui/Divider'
 import IconButton from 'material-ui/IconButton'
 import MenuIcon from 'material-ui-icons/Menu'
-import ChevronLeftIcon from 'material-ui-icons/ChevronLeft'
-import { ListItem, ListItemText } from 'material-ui/List'
-import { Link } from 'react-router-dom'
+import ListSubheader from 'material-ui/List/ListSubheader'
+import { ListItem, ListItemText, ListItemIcon } from 'material-ui/List'
 import MoreVertIcon from 'material-ui-icons/MoreVert'
+import Menu, { MenuItem } from 'material-ui/Menu'
+import PrintIcon from 'material-ui-icons/Print'
+import ViewQuiltIcon from 'material-ui-icons/ViewQuilt'
+import SearchIcon from 'material-ui-icons/Search'
+import AlarmClock from 'material-ui-icons/Alarm'
+import ChevronLeftIcon from 'material-ui-icons/ChevronLeft'
 
 const theme = createMuiTheme({
   palette: {
@@ -42,6 +52,10 @@ const theme = createMuiTheme({
 const drawerWidth = 250
 
 const styles = theme => ({
+  logo: {
+    width: '234px',
+    margin: '8px auto'
+  },
   flex: {
     flex: 1
   },
@@ -60,6 +74,9 @@ const styles = theme => ({
     height: '100%'
   },
   appBar: {
+    // backgroundColor: '#fff',
+    borderBottom: 'solid 3px #998643',
+    color: '#21412a',
     position: 'fixed',
     transition: theme.transitions.create(['margin', 'width'], {
       easing: theme.transitions.easing.sharp,
@@ -130,7 +147,9 @@ class Layout extends Component {
   constructor () {
     super()
     this.state = {
-      open: true
+      open: true,
+      anchorEl: null,
+      openMenu: false
     }
     this.handleDrawerOpen = this.handleDrawerOpen.bind(this)
     this.handleDrawerClose = this.handleDrawerClose.bind(this)
@@ -140,6 +159,12 @@ class Layout extends Component {
   }
   handleDrawerClose () {
     this.setState({ open: false })
+  }
+  handleClick = e => {
+    this.setState({ openMenu: true, anchorEl: e.currentTarget })
+  }
+  handleRequestClose = () => {
+    this.setState({ openMenu: false })
   }
 
   render () {
@@ -174,9 +199,33 @@ class Layout extends Component {
                 >
                   FUS Bulletin
                 </Typography>
+                {/* Icons for topBar */}
                 <IconButton color='contrast' aria-label='More'>
+                  <SearchIcon />
+                </IconButton>
+                <IconButton color='contrast' aria-label='More'>
+                  <ViewQuiltIcon />
+                </IconButton>
+                <IconButton color='contrast' aria-label='More'>
+                  <PrintIcon />
+                </IconButton>
+                <IconButton
+                  color='contrast'
+                  aria-label='More'
+                  aria-owns={this.state.openMenu ? 'simple-menu' : null}
+                  aria-haspopup='true'
+                  onClick={this.handleClick}
+                >
                   <MoreVertIcon />
                 </IconButton>
+                <Menu
+                  id='simple-menu'
+                  anchorEl={this.state.anchorEl}
+                  open={this.state.openMenu}
+                  onRequestClose={this.handleRequestClose}
+                >
+                  <MenuItem onClick={this.handleRequestClose}>Logout</MenuItem>
+                </Menu>
               </Toolbar>
             </AppBar>
             <Drawer
@@ -200,13 +249,30 @@ class Layout extends Component {
                   </IconButton>
                 </div>
                 <Divider />
+                <ListSubheader>Current Bulletin</ListSubheader>
                 <Link to='/' className={classes.link}>
-                  <ListItemText primary='Home' />
+                  <ListItem button>
+                    <ListItemIcon>
+                      <AlarmClock />
+                    </ListItemIcon>
+                    <ListItemText inset secondary='Take Action' />
+                  </ListItem>
                 </Link>
+                {!this.props.data.loading &&
+                  this.props.data.categories.edges.map(category => (
+                    <Link
+                      to={`/category/${category.node.id}`}
+                      className={classes.link}
+                    >
+                      <ListItem button>
+                        <ListItemText secondary={category.node.name} />
+                      </ListItem>
+                    </Link>
+                  ))}
                 <Divider />
                 <Link to='/categories' className={classes.link}>
                   <ListItem button>
-                    <ListItemText primary='Categories' />
+                    <ListItemText contrast='Categories' />
                   </ListItem>
                 </Link>
               </div>
@@ -226,4 +292,4 @@ class Layout extends Component {
   }
 }
 
-export default withStyles(styles)(Layout)
+export default graphql(getAllCategories)(withStyles(styles)(Layout))

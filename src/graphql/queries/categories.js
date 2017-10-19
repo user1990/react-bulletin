@@ -1,19 +1,28 @@
 import { gql } from 'react-apollo'
-import { postFragment } from '../fragments'
+import { postFragment, categoriesFragment } from '../fragments'
 
-export const getCategories = gql`
+export const getAllCategoriesPosts = gql`
 query getAllPosts {
-    categories {
-      edges {
-        node {
-            id
-          name
-         posts {
-           ...PostData
-         }
+  categories {
+    ...CategoryData
+    edges {
+      node {
+        posts {
+          ...PostData
         }
       }
     }
-   }
-   ${postFragment}
+  }
+}
+${postFragment}
+${categoriesFragment}
+`
+
+export const getAllCategories = gql`
+query getAllCategories {
+  categories {
+    ...CategoryData
+  }
+}
+${categoriesFragment}
 `

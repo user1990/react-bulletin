@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { graphql } from 'react-apollo'
-import { getCategories } from '../graphql/queries/categories'
+import { getAllCategories } from '../graphql/queries/categories'
 import Loader from '../components/Loader'
 import Layout from '../components/Layout'
 import CategoryView from '../components/CategoryView'
@@ -43,4 +43,4 @@ class Category extends Component {
   }
 }
 
-export default graphql(getCategories)(Category)
+export default graphql(getAllCategories)(Category)

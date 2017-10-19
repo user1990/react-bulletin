@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "husky": "^0.14.3",
     "material-ui": "^1.0.0-beta.17",
     "material-ui-icons": "^1.0.0-beta.17",
     "react": "^16.0.0",
@@ -23,7 +24,6 @@
   "devDependencies": {
     "babel-eslint": "^8.0.1",
     "cross-env": "^5.0.1",
-    "husky": "^0.14.3",
     "lint-staged": "^4.0.2",
     "node-fetch": "^1.7.1",
     "npm-run-all": "^4.0.2",

@@ -11,7 +11,7 @@ class PostDetail extends Component {
     this.renderPost = this.renderPost.bind(this)
   }
 
-  renderPost () {
+  renderPost = () => {
     const post = this.props.data.post
     const date = new Date(post.date).toLocaleDateString()
     return (
