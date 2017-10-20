@@ -22,13 +22,15 @@ const SideComponent = ({ classes, open, handleDrawerClose, data }) => {
       >
         <div className={classes.drawerInner}>
           <div className={classes.drawerHeader}>
-            <ListItem>
-              <img
-                className={classes.name}
-                alt="logo"
-                src="https://franciscan.university/img/side-nav-logo.jpg"
-              />
-            </ListItem>
+            <Link to="/">
+              <ListItem>
+                <img
+                  className={classes.name}
+                  alt="logo"
+                  src="https://rc.franciscan.university/static/media/fus-logo.5e5882da.svg"
+                />
+              </ListItem>
+            </Link>
             <IconButton onClick={handleDrawerClose}>
               <ChevronLeftIcon />
             </IconButton>
@@ -43,10 +45,16 @@ const SideComponent = ({ classes, open, handleDrawerClose, data }) => {
               <ListItemText inset secondary="Take Action" />
             </ListItem>
           </Link>
+          <Divider />
+          <ListItem button>
+            <ListItemText primary="Categories" />
+          </ListItem>
           {!data.loading &&
+            data.categories &&
             data.categories.edges.map(category => (
               <Link
-                to={`/category/${category.node.id}`}
+                key={category.node.id}
+                to={`/category/${category.node.slug}`}
                 className={classes.link}
               >
                 <ListItem button>

@@ -10,6 +10,15 @@ export const getAllPosts = gql`
   ${postFragment}
 `
 
+export const getPostsByCat = gql`
+  query getPostsByCat($slug: String!) {
+    posts(where:{categoryName: $slug }) {
+      ...PostData
+    }
+  }
+  ${postFragment}
+`
+
 export const SinglePostDetail = gql`
   query SinglePostDetail($id: ID!) {
     post(id: $id) {

@@ -2,7 +2,7 @@ const drawerWidth = 250
 
 const styles = theme => ({
   logo: {
-    width: '234px',
+    width: '100%',
     margin: '8px auto'
   },
   flex: {
@@ -64,7 +64,6 @@ const styles = theme => ({
     width: '100%',
     marginLeft: 0,
     flexGrow: 1,
-    backgroundColor: theme.palette.background.default,
     padding: theme.spacing.unit * 3,
     transition: theme.transitions.create('margin', {
       easing: theme.transitions.easing.sharp,

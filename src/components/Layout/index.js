@@ -7,6 +7,13 @@ import SideBar from './drawer'
 import styles from './styles'
 
 class Layout extends Component {
+  componentWillMount () {
+    if (window.innerWidth < 770) {
+      this.setState({
+        open: false
+      })
+    }
+  }
   constructor () {
     super()
     this.state = {
