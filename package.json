@@ -23,6 +23,12 @@
   },
   "devDependencies": {
     "babel-eslint": "^8.0.1",
+    "eslint": "^4.8.0",
+    "eslint-config-standard": "^10.2.1",
+    "eslint-plugin-node": "^5.2.0",
+    "eslint-plugin-promise": "^3.5.0",
+    "eslint-plugin-react": "^7.4.0",
+    "eslint-plugin-standard": "^3.0.1",
     "cross-env": "^5.0.1",
     "lint-staged": "^4.0.2",
     "node-fetch": "^1.7.1",
@@ -33,23 +39,8 @@
   "lint-staged": {
     "*.js": [
       "prettier --write --single-quote --no-semi",
-      "standard --fix",
+      "eslint --fix",
       "git add"
     ]
-  },
-  "standard": {
-    "globals": [
-      "fetch",
-      "FormData",
-      "it",
-      "state",
-      "URL",
-      "renderPost",
-      "handleClick",
-      "handleRequestClose",
-      "handleDrawerOpen",
-      "handleDrawerClose"
-    ],
-    "parser": "babel-eslint"
   }
 }
