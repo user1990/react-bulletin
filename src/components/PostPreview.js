@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { Link } from 'react-router-dom'
 // Material-UI
 import Card, { CardActions, CardContent, CardMedia } from 'material-ui/Card'
@@ -34,22 +34,22 @@ const PostPreview = ({ classes, title, imageURL, date, id }) => {
       <CardContent>
         <Typography
           className={classes.titleColor}
-          type='headline'
-          component='h2'
+          type="headline"
+          component="h2"
         >
           {title}
         </Typography>
         <Typography
           className={classes.dateColor}
-          type='subheading'
-          component='h3'
+          type="subheading"
+          component="h3"
         >
           {date}
         </Typography>
       </CardContent>
       <CardActions>
         <Link className={classes.link} to={`/post/${id}`}>
-          <Button dense color='primary'>
+          <Button dense color="primary">
             Read More
           </Button>
         </Link>

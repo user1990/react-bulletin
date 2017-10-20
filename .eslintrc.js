@@ -9,6 +9,6 @@ module.exports = {
   },
   rules: {
     'react/prop-types': 0,
-    quotes: '["error", "single", { "allowTemplateLiterals": true }]'
+    quotes: [2, 'single', { allowTemplateLiterals: true }]
   }
 }
