@@ -43,7 +43,12 @@
       "FormData",
       "it",
       "state",
-      "URL"
+      "URL",
+      "renderPost",
+      "handleClick",
+      "handleRequestClose",
+      "handleDrawerOpen",
+      "handleDrawerClose"
     ],
     "parser": "babel-eslint"
   }
