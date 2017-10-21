@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
 import { getAllCategories } from '../../graphql/queries/categories'
 import Drawer from 'material-ui/Drawer'
-import Hidden from 'material-ui/Hidden'
 import Divider from 'material-ui/Divider'
 import IconButton from 'material-ui/IconButton'
 import ChevronLeftIcon from 'material-ui-icons/ChevronLeft'
 import ListSubheader from 'material-ui/List/ListSubheader'
+import Hidden from 'material-ui/Hidden'
 import { ListItem, ListItemText, ListItemIcon } from 'material-ui/List'
 import { Link } from 'react-router-dom'
 import AlarmClock from 'material-ui-icons/Alarm'
@@ -18,25 +18,21 @@ class SideComponent extends Component {
       <div className={classes.drawerInner}>
         <div className={classes.drawerHeader}>
           <ListItem>
-            <Link to="/">
-              <img
-                className={classes.name}
-                alt="logo"
-                src="https://rc.franciscan.university/static/media/fus-logo.5e5882da.svg"
-              />
-            </Link>
+            <img
+              className={classes.image}
+              alt="logo"
+              src="https://rc.franciscan.university/static/media/fus-logo.5e5882da.svg"
+            />
           </ListItem>
-          <IconButton onClick={this.props.handleDrawerClose}>
+          <IconButton
+            className={classes.navIconHide}
+            onClick={this.props.handleDrawerClose}
+          >
             <ChevronLeftIcon />
           </IconButton>
         </div>
         <Divider />
-        <Link to="/" className={classes.link}>
-          <ListItem button>
-            <ListItemText secondary="Current Bulletin" />
-          </ListItem>
-        </Link>
-        <Divider />
+        <ListSubheader>Current Bulletin</ListSubheader>
         <Link to="/" className={classes.link}>
           <ListItem button>
             <ListItemIcon>
@@ -61,11 +57,6 @@ class SideComponent extends Component {
             </Link>
           ))}
         <Divider />
-        <Link to="/categories" className={classes.link}>
-          <ListItem button>
-            <ListItemText contrast="Categories" />
-          </ListItem>
-        </Link>
       </div>
     )
     return (
