@@ -1,17 +1,22 @@
 import React from 'react'
+// GraphQL
 import { graphql } from 'react-apollo'
 import { getPostsByCat } from '../graphql/queries/posts'
+// Components
 import Loader from '../components/Loader'
 import Layout from '../components/Layout/index'
+import Error from '../components/Error'
 import PostPreview from '../components/PostPreview'
-import { Helmet } from 'react-helmet'
+// Material-UI
 import Grid from 'material-ui/Grid'
+import { Helmet } from 'react-helmet'
 
 const Category = ({ data }) => {
   const isLoading = data.loading
   return (
     <Layout>
-      {isLoading && <Loader />}
+      {!data.error && isLoading && <Loader />}
+      {data.error && <Error error={data.error.message} />}
       {!isLoading && <RenderCategories data={data} />}
     </Layout>
   )
