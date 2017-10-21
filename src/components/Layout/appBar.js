@@ -27,7 +27,7 @@ const TopBar = ({
       >
         <Toolbar disableGutters={!open}>
           <IconButton
-            color="primary"
+            color="contrast"
             aria-label="open drawer"
             onClick={handleDrawerOpen}
             className={classNames(classes.menuButton, open && classes.hide)}

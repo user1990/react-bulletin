@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { Component } from 'react'
 import { getAllCategories } from '../../graphql/queries/categories'
 import Drawer from 'material-ui/Drawer'
+import Hidden from 'material-ui/Hidden'
 import Divider from 'material-ui/Divider'
 import IconButton from 'material-ui/IconButton'
 import ChevronLeftIcon from 'material-ui-icons/ChevronLeft'
@@ -10,68 +11,94 @@ import { Link } from 'react-router-dom'
 import AlarmClock from 'material-ui-icons/Alarm'
 import { graphql } from 'react-apollo'
 
-const SideComponent = ({ classes, open, handleDrawerClose, data }) => {
-  return (
-    <div>
-      <Drawer
-        type="persistent"
-        classes={{
-          paper: classes.drawerPaper
-        }}
-        open={open}
-      >
-        <div className={classes.drawerInner}>
-          <div className={classes.drawerHeader}>
+class SideComponent extends Component {
+  render () {
+    const classes = this.props.classes
+    const drawer = (
+      <div className={classes.drawerInner}>
+        <div className={classes.drawerHeader}>
+          <ListItem>
             <Link to="/">
-              <ListItem>
-                <img
-                  className={classes.name}
-                  alt="logo"
-                  src="https://rc.franciscan.university/static/media/fus-logo.5e5882da.svg"
-                />
+              <img
+                className={classes.name}
+                alt="logo"
+                src="https://rc.franciscan.university/static/media/fus-logo.5e5882da.svg"
+              />
+            </Link>
+          </ListItem>
+          <IconButton onClick={this.props.handleDrawerClose}>
+            <ChevronLeftIcon />
+          </IconButton>
+        </div>
+        <Divider />
+        <Link to="/" className={classes.link}>
+          <ListItem button>
+            <ListItemText secondary="Current Bulletin" />
+          </ListItem>
+        </Link>
+        <Divider />
+        <Link to="/" className={classes.link}>
+          <ListItem button>
+            <ListItemIcon>
+              <AlarmClock />
+            </ListItemIcon>
+            <ListItemText inset secondary="Take Action" />
+          </ListItem>
+        </Link>
+        <Divider />
+        <ListSubheader>Categories</ListSubheader>
+        {!this.props.data.loading &&
+          this.props.data.categories &&
+          this.props.data.categories.edges.map(category => (
+            <Link
+              key={category.node.id}
+              to={`/category/${category.node.slug}`}
+              className={classes.link}
+            >
+              <ListItem button>
+                <ListItemText secondary={category.node.name} />
               </ListItem>
             </Link>
-            <IconButton onClick={handleDrawerClose}>
-              <ChevronLeftIcon />
-            </IconButton>
-          </div>
-          <Divider />
-          <ListSubheader>Current Bulletin</ListSubheader>
-          <Link to="/" className={classes.link}>
-            <ListItem button>
-              <ListItemIcon>
-                <AlarmClock />
-              </ListItemIcon>
-              <ListItemText inset secondary="Take Action" />
-            </ListItem>
-          </Link>
-          <Divider />
+          ))}
+        <Divider />
+        <Link to="/categories" className={classes.link}>
           <ListItem button>
-            <ListItemText primary="Categories" />
+            <ListItemText contrast="Categories" />
           </ListItem>
-          {!data.loading &&
-            data.categories &&
-            data.categories.edges.map(category => (
-              <Link
-                key={category.node.id}
-                to={`/category/${category.node.slug}`}
-                className={classes.link}
-              >
-                <ListItem button>
-                  <ListItemText secondary={category.node.name} />
-                </ListItem>
-              </Link>
-            ))}
-          <Divider />
-          <Link to="/categories" className={classes.link}>
-            <ListItem button>
-              <ListItemText contrast="Categories" />
-            </ListItem>
-          </Link>
-        </div>
-      </Drawer>
-    </div>
-  )
+        </Link>
+      </div>
+    )
+    return (
+      <div>
+        <Hidden mdUp>
+          <Drawer
+            type="temporary"
+            open={this.props.open}
+            classes={{
+              paper: classes.drawerPaper
+            }}
+            onRequestClose={this.props.handleDrawerToggle}
+            ModalProps={{
+              keepMounted: true // Better open performance on mobile.
+            }}
+          >
+            {drawer}
+          </Drawer>
+        </Hidden>
+        <Hidden mdDown implementation="css">
+          <Drawer
+            type="permanent"
+            open
+            classes={{
+              paper: classes.drawerPaper
+            }}
+          >
+            {drawer}
+          </Drawer>
+        </Hidden>
+      </div>
+    )
+  }
 }
 
 export default graphql(getAllCategories)(SideComponent)
