@@ -27,12 +27,13 @@ const RenderCategories = ({ data }) => {
       <Grid container spacing={24}>
         {posts &&
           posts.edges.map(post => (
-            <Grid key={post.node.id} item xs={12} sm={6} md={4}>
+            <Grid key={post.node.id} item xs={12} sm={6} md={4} lg={3}>
               <PostPreview
                 key={post.node.id}
                 id={post.node.id}
                 title={post.node.title}
                 date={post.node.date}
+                style={{ maxWidth: '500px', margin: '0 auto' }}
                 imageURL={
                   post.node.featuredImage && post.node.featuredImage.sourceUrl
                 }

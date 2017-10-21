@@ -15,29 +15,28 @@ const TopBar = ({
   classes,
   open,
   openMenu,
-  handleClick,
   handleDrawerOpen,
+  handleClick,
+  anchorEl,
   handleRequestClose,
-  anchorEl
+  handleLayoutChange
 }) => {
   return (
     <div>
-      <AppBar
-        className={classNames(classes.appBar, open && classes.appBarShift)}
-      >
+      <AppBar className={classNames(classes.appBar, open)}>
         <Toolbar disableGutters={!open}>
           <IconButton
             color="contrast"
             aria-label="open drawer"
             onClick={handleDrawerOpen}
-            className={classNames(classes.menuButton, open && classes.hide)}
+            className={classNames(classes.menuButton, classes.navIconHide)}
           >
             <MenuIcon />
           </IconButton>
           <Typography
             type="title"
             color="inherit"
-            className={classes.flex}
+            className={classNames(classes.flex, classes.typo)}
             noWrap
           >
             FUS Bulletin
@@ -45,7 +44,11 @@ const TopBar = ({
           <IconButton color="contrast" aria-label="More">
             <SearchIcon />
           </IconButton>
-          <IconButton color="contrast" aria-label="More">
+          <IconButton
+            onClick={handleLayoutChange}
+            color="contrast"
+            aria-label="More"
+          >
             <ViewQuiltIcon />
           </IconButton>
           <IconButton color="contrast" aria-label="More">

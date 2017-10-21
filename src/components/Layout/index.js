@@ -7,27 +7,42 @@ import SideBar from './drawer'
 import styles from './styles'
 
 class Layout extends Component {
-  constructor () {
-    super()
-    this.state = {
-      open: false,
-      anchorEl: null,
-      openMenu: false
-    }
-    this.handleDrawerOpen = this.handleDrawerOpen.bind(this)
-    this.handleDrawerClose = this.handleDrawerClose.bind(this)
+  state = {
+    open: false,
+    anchorEl: null,
+    openMenu: false,
+    viewType: 'list'
   }
-  handleDrawerOpen () {
+  componentWillMount () {
+    const layoutType = window.localStorage.getItem('l-type') || 'list'
+    this.setState({
+      viewType: layoutType
+    })
+  }
+  handleDrawerOpen = () => {
     this.setState({ open: true })
   }
-  handleDrawerClose () {
-    this.setState({ open: false })
+  handleClick = event => {
+    this.setState({
+      openMenu: true,
+      anchorEl: event ? event.currentTarget : null
+    })
   }
-  handleClick = e => {
-    this.setState({ openMenu: true, anchorEl: e.currentTarget })
+
+  handleLayoutChange = () => {
+    const newVal = this.state.viewType === 'grid' ? 'list' : 'grid'
+    window.localStorage.setItem('l-type', newVal)
+    this.setState({
+      viewType: newVal
+    })
   }
+
   handleRequestClose = () => {
     this.setState({ openMenu: false })
+  }
+
+  handleDrawerClose = () => {
+    this.setState({ open: false })
   }
 
   render () {
@@ -43,6 +58,7 @@ class Layout extends Component {
             handleDrawerOpen={this.handleDrawerOpen}
             handleClick={this.handleClick}
             handleRequestClose={this.handleRequestClose}
+            handleLayoutChange={this.handleLayoutChange}
           />
           <SideBar
             open={this.state.open}
@@ -51,7 +67,15 @@ class Layout extends Component {
           />
           <div className={classes.appFrame}>
             <main className={classNames(classes.content, this.state.open)}>
-              {this.props.children}
+              {// eslint-disable-next-line
+              this.props.children.map((child, i) => {
+                  if (child) {
+                    return React.cloneElement(child, {
+                      viewtype: this.state.viewType,
+                      key: i
+                    })
+                  }
+                })}
             </main>
           </div>
         </div>

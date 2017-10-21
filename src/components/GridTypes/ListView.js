@@ -1,9 +1,10 @@
 import React from 'react'
-import PostPreview from '../components/PostPreview'
+import Grid from 'material-ui/Grid'
+import PostPreview from '../PostPreview'
 
-const PostRenderer = ({ posts }) => {
-  return (
-    <div>
+const ListView = ({ posts }) => (
+  <Grid container justify="center">
+    <Grid item xs={12} sm={8} md={6}>
       {posts.edges.map(post => (
         <PostPreview
           key={post.node.id}
@@ -15,8 +16,8 @@ const PostRenderer = ({ posts }) => {
           title={post.node.title}
         />
       ))}
-    </div>
-  )
-}
+    </Grid>
+  </Grid>
+)
 
-export default PostRenderer
+export default ListView

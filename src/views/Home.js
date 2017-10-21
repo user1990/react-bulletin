@@ -3,11 +3,10 @@ import { graphql } from 'react-apollo'
 import { getAllPosts } from '../graphql/queries/posts'
 import Layout from '../components/Layout/index'
 import Loader from '../components/Loader'
-import Grid from 'material-ui/Grid'
-import RenderPost from '../components/renderPostPreview'
+import GridRenderer from '../components/GridTypes/GridRenderer'
 import { Helmet } from 'react-helmet'
 
-const Home = ({ data }) => {
+const Home = ({ data, viewtype }) => {
   const posts = data.posts
   return (
     <Layout>
@@ -15,13 +14,7 @@ const Home = ({ data }) => {
         <title>Home | Bulletin - FUS</title>
       </Helmet>
       {!posts && <Loader />}
-      {posts && (
-        <Grid container justify="center">
-          <Grid item xs={12} sm={8} md={6}>
-            <RenderPost posts={posts} />
-          </Grid>
-        </Grid>
-      )}
+      {posts && <GridRenderer posts={posts} />}
     </Layout>
   )
 }

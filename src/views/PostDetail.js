@@ -5,7 +5,7 @@ import Layout from '../components/Layout/index'
 import Loader from '../components/Loader'
 import { Helmet } from 'react-helmet'
 
-const PostDetail = ({ data }) => {
+const PostDetail = ({ data, classes }) => {
   const isLoading = data.loading
   return (
     <Layout>
@@ -13,11 +13,11 @@ const PostDetail = ({ data }) => {
         <title>Loading... - FUS</title>
       </Helmet>
       {isLoading && <Loader />}
-      {!isLoading && this.renderPost()}
+      {!isLoading && <RenderPost data={data} classes={classes} />}
     </Layout>
   )
 }
-const RenderPost = ({ data }) => {
+const RenderPost = ({ data, classes }) => {
   const post = data.post
   const date = new Date(post.date).toLocaleDateString()
   return (
