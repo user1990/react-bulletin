@@ -17,7 +17,7 @@ const PostDetail = ({ data, classes }) => {
     </Layout>
   )
 }
-const RenderPost = ({ data, classes }) => {
+const RenderPost = ({ data }) => {
   const post = data.post
   const date = new Date(post.date).toLocaleDateString()
   return (
