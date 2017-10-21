@@ -40,7 +40,6 @@ const whitelist = [
   // Cors will also protect the api
   'http://localhost:3000'
 ]
-
 const corsOptions = {
   origin (origin, callback) {
     const originIsWhitelisted = whitelist.indexOf(origin) !== -1
@@ -48,7 +47,6 @@ const corsOptions = {
   },
   credentials: true
 }
-
 app.use(cors(corsOptions))
 
 // Graphiql GUI for API Testing...
@@ -60,11 +58,19 @@ app.use(
 )
 
 // Making WP API Available by using remote gql server strategy
-introspectSchema(fetcher).then(schema => {
-  const gqlschema = makeRemoteExecutableSchema({
-    schema,
-    fetcher
+introspectSchema(fetcher)
+  .then(schema => {
+    const gqlschema = makeRemoteExecutableSchema({
+      schema,
+      fetcher
+    })
+    app.use(
+      '/graphql',
+      bodyParser.json(),
+      graphqlExpress({ schema: gqlschema })
+    )
+    app.listen(PORT, () => console.log(`Server Started on PORT -> ${PORT}`))
   })
-  app.use('/graphql', bodyParser.json(), graphqlExpress({ schema: gqlschema }))
-  app.listen(PORT, () => console.log(`Server Started on PORT -> ${PORT}`))
-})
+  .catch(err => {
+    console.log(`Connection Error -> ${err}`)
+  })

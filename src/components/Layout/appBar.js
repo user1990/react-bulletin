@@ -5,6 +5,7 @@ import Typography from 'material-ui/Typography'
 import IconButton from 'material-ui/IconButton'
 import MenuIcon from 'material-ui-icons/Menu'
 import ViewQuiltIcon from 'material-ui-icons/ViewQuilt'
+import ViewStreamIcon from 'material-ui-icons/ViewStream'
 import SearchIcon from 'material-ui-icons/Search'
 import PrintIcon from 'material-ui-icons/Print'
 import MoreVertIcon from 'material-ui-icons/MoreVert'
@@ -19,7 +20,8 @@ const TopBar = ({
   handleClick,
   anchorEl,
   handleRequestClose,
-  handleLayoutChange
+  handleLayoutChange,
+  viewtype
 }) => {
   return (
     <div>
@@ -34,12 +36,12 @@ const TopBar = ({
             <MenuIcon />
           </IconButton>
           <Typography
-            type="title"
+            type="display1"
             color="inherit"
             className={classNames(classes.flex, classes.typo)}
             noWrap
           >
-            FUS Bulletin
+            Bulletin
           </Typography>
           <IconButton color="contrast" aria-label="More">
             <SearchIcon />
@@ -49,7 +51,7 @@ const TopBar = ({
             color="contrast"
             aria-label="More"
           >
-            <ViewQuiltIcon />
+            {viewtype === 'grid' ? <ViewStreamIcon /> : <ViewQuiltIcon />}
           </IconButton>
           <IconButton color="contrast" aria-label="More">
             <PrintIcon />

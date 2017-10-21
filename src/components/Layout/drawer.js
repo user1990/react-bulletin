@@ -9,6 +9,7 @@ import Hidden from 'material-ui/Hidden'
 import { ListItem, ListItemText, ListItemIcon } from 'material-ui/List'
 import { Link } from 'react-router-dom'
 import AlarmClock from 'material-ui-icons/Alarm'
+import ClockIcon from 'material-ui-icons/AccessTime'
 import { graphql } from 'react-apollo'
 
 class SideComponent extends Component {
@@ -57,6 +58,21 @@ class SideComponent extends Component {
             </Link>
           ))}
         <Divider />
+        <ListItem button>
+          <ListItemIcon>
+            <ClockIcon />
+          </ListItemIcon>
+          <ListItemText inset primary="Filter By Date" />
+        </ListItem>
+        <Divider />
+        <ListSubheader
+          className={classes.btn}
+          onClick={this.props.toggleDrawer}
+        >
+          Submit Announcement
+        </ListSubheader>
+        <ListSubheader>Classic Mode</ListSubheader>
+        <ListSubheader>Help</ListSubheader>
       </div>
     )
     return (

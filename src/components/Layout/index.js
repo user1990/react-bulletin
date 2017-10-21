@@ -5,23 +5,28 @@ import theme from './fusTheme'
 import TopBar from './appBar'
 import SideBar from './drawer'
 import styles from './styles'
+import AnnouncementForm from './AnnoucementForm'
 
 class Layout extends Component {
   state = {
     open: false,
     anchorEl: null,
     openMenu: false,
-    viewType: 'list'
+    viewType: 'list',
+    btnDrawerOpen: false
   }
+
   componentWillMount () {
     const layoutType = window.localStorage.getItem('l-type') || 'list'
     this.setState({
       viewType: layoutType
     })
   }
+
   handleDrawerOpen = () => {
     this.setState({ open: true })
   }
+
   handleClick = event => {
     this.setState({
       openMenu: true,
@@ -45,12 +50,17 @@ class Layout extends Component {
     this.setState({ open: false })
   }
 
+  toggleDrawer = () => {
+    this.setState({ btnDrawerOpen: !this.state.btnDrawerOpen })
+  }
+
   render () {
     const classes = this.props.classes
     return (
       <MuiThemeProvider theme={theme}>
         <div className={classes.root}>
           <TopBar
+            viewtype={this.state.viewType}
             open={this.state.open}
             anchorEl={this.state.anchorEl}
             classes={this.props.classes}
@@ -64,6 +74,11 @@ class Layout extends Component {
             open={this.state.open}
             classes={this.props.classes}
             handleDrawerClose={this.handleDrawerClose}
+            toggleDrawer={this.toggleDrawer}
+          />
+          <AnnouncementForm
+            btnDrawerOpen={this.state.btnDrawerOpen}
+            toggleDrawer={this.toggleDrawer}
           />
           <div className={classes.appFrame}>
             <main className={classNames(classes.content, this.state.open)}>

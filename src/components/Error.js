@@ -16,7 +16,7 @@ const styles = theme => ({
 
 const Error = ({ error, classes }) => {
   return (
-    <Grid conatainer className={classes.root} justify="center" align="center">
+    <Grid container className={classes.root} justify="center" align="center">
       <Grid item xs={6} sm={6} md={4}>
         <Typography className={classes.err} type="headline" gutterBottom>
           {error}
