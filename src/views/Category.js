@@ -1,10 +1,11 @@
 import React from 'react'
 import { graphql } from 'react-apollo'
-import { getAllCategories } from '../graphql/queries/categories'
+import { getPostsByCat } from '../graphql/queries/posts'
 import Loader from '../components/Loader'
 import Layout from '../components/Layout/index'
-import CategoryView from '../components/CategoryView'
+import PostPreview from '../components/PostPreview'
 import { Helmet } from 'react-helmet'
+import Grid from 'material-ui/Grid'
 
 const Category = ({ data }) => {
   const isLoading = data.loading
@@ -17,22 +18,36 @@ const Category = ({ data }) => {
 }
 
 const RenderCategories = ({ data }) => {
-  const categories = data.categories
+  const posts = data.posts
   return (
     <div>
       <Helmet>
         <title>Posts By Categories | Bulletin - FUS</title>
       </Helmet>
-      {categories.edges.map(category => (
-        <CategoryView
-          key={category.node.id}
-          id={category.node.id}
-          name={category.node.name}
-          posts={category.node.posts}
-        />
-      ))}
+      <Grid container spacing={24}>
+        {posts &&
+          posts.edges.map(post => (
+            <Grid key={post.node.id} item xs={12} sm={6} md={4}>
+              <PostPreview
+                key={post.node.id}
+                id={post.node.id}
+                title={post.node.title}
+                date={post.node.date}
+                imageURL={
+                  post.node.featuredImage && post.node.featuredImage.sourceUrl
+                }
+              />
+            </Grid>
+          ))}
+      </Grid>
     </div>
   )
 }
 
-export default graphql(getAllCategories)(Category)
+export default graphql(getPostsByCat, {
+  options: ({ match }) => ({
+    variables: {
+      slug: match.params.slug
+    }
+  })
+})(Category)
