@@ -28,8 +28,9 @@
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
-    "lint": "prettier 'src/**/*.js' 'server/*.js' 'src/components/**/*.js' '*.js' --write --config .prettierrc && standard --fix",
-    "precommit": "lint-staged"
+    "test-without-watch": "cross-env CI=true npm test",
+    "lint": "prettier 'src/**/*.js' 'server/*.js' 'src/components/**/*.js' '*.js' --write --config .prettierrc && eslint --fix 'src/**/*.js' 'server/*.js' 'src/components/**/*.js'",
+    "precommit": "lint-staged && npm run test-without-watch"
   },
   "devDependencies": {
     "babel-eslint": "^8.0.1",
