@@ -32,7 +32,66 @@ const styles = theme => ({
 
 class AnnouncementForm extends Component {
   state = {
-    files: ''
+    files: '',
+    btnText: 'SUBMIT'
+  }
+
+  handleSubmit = e => {
+    this.setState({
+      btnText: 'SUBMITTING...'
+    })
+    e.epreventDefault()
+    const { title, announcement } = this.state
+    if (!title || !announcement) {
+      this.setState({
+        btnText: 'Fill in all fields and try again'
+      })
+      return
+    }
+    // eslint-disable-next-line
+    let formData = new FormData()
+    formData.append('title', title)
+    formData.append('announcement', announcement)
+    for (const file of this.fileInp.files) formData.append('upload', file)
+    // eslint-disable-next-line
+    fetch('http://localhost:8080/email_announcement', {
+      method: 'POST',
+      body: formData
+    })
+      .then(res => res.json())
+      .then(res => {
+        if (res.ok) {
+          this.setState({
+            btnText: 'SUBMITTED ✔️'
+          })
+        } else {
+          this.setState({
+            btnText: 'Oops! Try again'
+          })
+        }
+      })
+      .catch(er => {
+        this.setState({
+          btnText: 'Oops! Try again'
+        })
+      })
+  }
+  handleFileChange = e => {
+    if (e.target.files) {
+      let sString = ''
+      // eslint-disable-next-line
+      for (let file of e.target.files) {
+        sString += ` ${file.name}`
+      }
+      this.setState({
+        files: sString
+      })
+    }
+  }
+  handleChange = e => {
+    this.setState({
+      [e.target.name]: e.target.value
+    })
   }
 
   render () {
@@ -62,12 +121,11 @@ class AnnouncementForm extends Component {
           >
             Do you need to request a special bulletin?
           </Typography>
-          <form encType="multipart/form-data">
+          <form onSubmit={this.handleSubmit} encType="multipart/form-data">
             <TextField
-              label="Announcement"
-              placeholder="Write you announcement here..."
-              multiline
-              name="announcement"
+              label="Title"
+              placeholder="Write Title for your announcement here..."
+              name="title"
               margin="normal"
               className={classes.textfield}
               onChange={this.handleChange}
@@ -85,6 +143,9 @@ class AnnouncementForm extends Component {
               id="file"
               name="filesArray"
               type="file"
+              ref={input => {
+                this.fileInp = input
+              }}
             />
             <Input
               className={classes.textfield}
@@ -104,23 +165,6 @@ class AnnouncementForm extends Component {
         </div>
       </Drawer>
     )
-  }
-  handleFileChange = e => {
-    if (e.target.files) {
-      let sString = ''
-      for (let file of e.target.files) {
-        sString += ` ${file.name}`
-      }
-      this.setState({
-        files: sString,
-        filesArray: e.target.files
-      })
-    }
-  }
-  handleChange = e => {
-    this.setState({
-      [e.target.name]: e.target.value
-    })
   }
 }
 

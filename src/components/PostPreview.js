@@ -1,9 +1,8 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
-// Material-UI
 import Card, { CardActions, CardContent, CardMedia } from 'material-ui/Card'
 import Button from 'material-ui/Button'
 import Typography from 'material-ui/Typography'
+import { Link } from 'react-router-dom'
 import { withStyles } from 'material-ui/styles'
 import { blue, grey } from 'material-ui/colors'
 
@@ -26,18 +25,30 @@ const styles = {
   }
 }
 
+const CardImage = ({ mediaStyle, imageURL, id }) => {
+  if (!imageURL) return ''
+
+  return (
+    <Link to={`/post/${id}`}>
+      <CardMedia className={mediaStyle} image={imageURL} />
+    </Link>
+  )
+}
+
 const PostPreview = ({ classes, title, imageURL, date, id, style }) => {
   const postDate = new Date(date).toLocaleDateString()
   return (
     <Card className={classes.card} style={style}>
-      {imageURL && <CardMedia className={classes.media} image={imageURL} />}
+      <CardImage mediaStyle={classes.media} imageURL={imageURL} id={id} />
       <CardContent>
         <Typography
-          className={classes.titleColor}
           type="headline"
+          className={classes.titleColor}
           component="h2"
         >
-          {title}
+          <Link className={classes.link} to={`/post/${id}`}>
+            {title}
+          </Link>
         </Typography>
         <Typography
           className={classes.dateColor}
