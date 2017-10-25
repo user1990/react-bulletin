@@ -11,6 +11,7 @@ import PrintIcon from 'material-ui-icons/Print'
 import MoreVertIcon from 'material-ui-icons/MoreVert'
 import Menu, { MenuItem } from 'material-ui/Menu'
 import classNames from 'classnames'
+import Tooltip from 'material-ui/Tooltip'
 
 const TopBar = ({
   classes,
@@ -43,19 +44,28 @@ const TopBar = ({
           >
             Bulletin
           </Typography>
-          <IconButton color="contrast" aria-label="More">
-            <SearchIcon />
-          </IconButton>
-          <IconButton
-            onClick={handleLayoutChange}
-            color="contrast"
-            aria-label="More"
+          <Tooltip title="search" placement="bottom">
+            <IconButton color="contrast" aria-label="More">
+              <SearchIcon />
+            </IconButton>
+          </Tooltip>
+          <Tooltip
+            title={viewtype === 'grid' ? 'List View' : 'Grid View'}
+            placement="bottom"
           >
-            {viewtype === 'grid' ? <ViewStreamIcon /> : <ViewQuiltIcon />}
-          </IconButton>
-          <IconButton color="contrast" aria-label="More">
-            <PrintIcon />
-          </IconButton>
+            <IconButton
+              onClick={handleLayoutChange}
+              color="contrast"
+              aria-label="More"
+            >
+              {viewtype === 'grid' ? <ViewStreamIcon /> : <ViewQuiltIcon />}
+            </IconButton>
+          </Tooltip>
+          <Tooltip title="Print View">
+            <IconButton color="contrast" aria-label="More">
+              <PrintIcon />
+            </IconButton>
+          </Tooltip>
           <IconButton
             color="contrast"
             aria-label="More"
