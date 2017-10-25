@@ -3,6 +3,7 @@ import { graphql } from 'react-apollo'
 import { SinglePostDetail } from '../graphql/queries/posts'
 import Layout from '../components/Layout/index'
 import Loader from '../components/Loader'
+import withAuth from '../components/withAuth'
 import { Helmet } from 'react-helmet'
 import Typography from 'material-ui/Typography'
 
@@ -56,4 +57,4 @@ const RenderPost = ({ data }) => {
 
 export default graphql(SinglePostDetail, {
   options: ({ match }) => ({ variables: { id: match.params.post_id } })
-})(PostDetail)
+})(withAuth(PostDetail))

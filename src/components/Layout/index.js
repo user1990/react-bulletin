@@ -9,6 +9,7 @@ import Button from 'material-ui/Button'
 import AddIcon from 'material-ui-icons/Add'
 import styles from './styles'
 import AnnouncementForm from './AnnoucementForm'
+import { withRouter } from 'react-router-dom'
 
 class Layout extends Component {
   state = {
@@ -53,6 +54,11 @@ class Layout extends Component {
     this.setState({ open: false })
   }
 
+  handleLogout = () => {
+    // eslint-disable-next-line
+    window.location.href = 'http://localhost:8080/logout'
+  }
+
   toggleDrawer = () => {
     this.setState({ btnDrawerOpen: !this.state.btnDrawerOpen })
   }
@@ -72,6 +78,7 @@ class Layout extends Component {
             handleClick={this.handleClick}
             handleRequestClose={this.handleRequestClose}
             handleLayoutChange={this.handleLayoutChange}
+            handleLogout={this.handleLogout}
           />
           <SideBar
             open={this.state.open}
@@ -112,4 +119,4 @@ class Layout extends Component {
   }
 }
 
-export default withStyles(styles)(Layout)
+export default withStyles(styles)(withRouter(Layout))
